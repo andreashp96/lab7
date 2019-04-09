@@ -1,0 +1,25 @@
+#set work dir
+
+setwd("C:/NEX180593 - Tutorial 7/data")
+
+#load library data.table
+library(data.table)
+
+AnalyzedData <- fread("./household_power_consumption.txt", na.strings="?")
+  
+#set date as d:m:y
+AnalyzedData$strDate <- as.Date(DT$Date,"%d/%m/%Y")
+
+#data selection
+AnalyzedData.filter<-AnalyzedData[AnalyzedData$strDate=="2007-02-01" | AnalyzedData$strDate=="2007-02-02",]
+AnalyzedData.filter$Global_active_power<-as.numeric(AnalyzedData.filter$Global_active_power)
+rm(AnalyzedData)
+
+
+#output histogram to PNG
+png(filename="plot1.png", width=480, height=480)
+hist(AnalyzedData.filter$Global_active_power, 
+     col="Blue", 
+     xlab="Global Active Power (kilowatts)", 
+     main="Global Active Power")
+dev.off()
